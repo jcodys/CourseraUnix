@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+#
+# guessinggame.sh 
+#   Guess the number game
+#
+#
+# 2017-08-31	by jcodys
+
+
+guess=-1
+scorefile="highscore"
+typeset -i num=0
+
+echo -e "guessinggame.sh - Guess a number (1 - 100)\n"
+
+### Get random number
+(( rnumber = RANDOM % 100 + 1 ))
+
+### Play game
+while (( guess != rnumber )); do
+	num=num+1
+	read -p "Enter guess $num: " guess
+	if (( guess < rnumber )); then
+		echo "Nope, guess higher"
+	elif (( guess > rnumber )); then
+		echo "Nope, guess lower"
+	fi
+done
+echo -e "That's it! That took $num guesses.\n"
+
+### Save high score
+read -p "Please enter your name: " name
+echo $name $num >> $scorefile
+
+### Print high scores
+echo -e "\nHigh scores," 
+cat $scorefile
